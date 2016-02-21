@@ -38,9 +38,18 @@ class eventHandler:
         self._cli = docker.Client(base_url='unix://var/run/docker.sock')
         self._args = args;
         self._filedata = None
+        self._tar_file = None
 
     def __enter__( self ):
-        if ( tarfile.is_tarfile( self._args.source ) ):
+        try:
+            is_tar = tarfile.is_tarfile( self._args.source )
+        except IsADirectoryError as e:
+            is_tar = False
+        except FileNotFoundError as e:
+            print( "source does not exist" )
+            sys.exit(0)
+
+        if ( is_tar ):
             self._f = open(self._args.source, 'rb')
         else:
             fd, self._tar_file = tempfile.mkstemp()
@@ -81,15 +90,9 @@ signal.signal(signal.SIGINT, signal_handler)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--container", default='*', help="container(s) to inject (wildcards accepted)")
-parser.add_argument("--source", help="file/directory to inject")
-parser.add_argument("--dest", help="path inside container where the injected files will be placed")
+parser.add_argument("--source", required=True, help="file/directory to inject")
+parser.add_argument("--dest", required=True, help="path inside container where the injected files will be placed")
 parser.add_argument("command", nargs=argparse.REMAINDER, help="command to run after injection")
 args = parser.parse_args()
-if ( not args.dest or not args.source ):
-    parser.print_help()
-    sys.exit(0)
-if ( not os.path.exists( args.source ) ):
-    print( "source does not exist" )
-    sys.exit(0)
 with eventHandler( args ) as handler:
     handler.run()
