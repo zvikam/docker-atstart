@@ -5,7 +5,7 @@ When a new container is started, a specified file (or directory) will be copied 
 
 ## Usage
 
-    docker-atstart.py [-h] [--container CONTAINER] [--source SOURCE] [--dest DEST] ...
+    docker-atstart.py [-h] [--container CONTAINER] --source SOURCE --dest DEST ...
 
 positional arguments:
 
