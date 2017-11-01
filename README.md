@@ -7,7 +7,7 @@ When a new container is started, a specified file (or directory) will be copied 
 
 The code is part of a blog post which is available here: 
 
-    http://www.correlsense.com/automating-docker-container-monitoring/
+http://www.correlsense.com/automating-docker-container-monitoring/
 
 ## Usage
 
