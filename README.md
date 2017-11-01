@@ -3,6 +3,12 @@
 This script will monitor the docker service for new containers being started.<br />
 When a new container is started, a specified file (or directory) will be copied into it and (optionally) a command will be executed inside the container.<br />
 
+## Blog
+
+The code is part of a blog post which is available here: 
+
+    http://www.correlsense.com/automating-docker-container-monitoring/
+
 ## Usage
 
     docker-atstart.py [-h] [--container CONTAINER] --source SOURCE --dest DEST ...
